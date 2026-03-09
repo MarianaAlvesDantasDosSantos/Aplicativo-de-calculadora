@@ -5,7 +5,7 @@ import { Button, StyleSheet, Text, Touchable, TouchableOpacity, View } from 'rea
 export default function App() {
   const [display, setDisplay] =useState('0');
   const [previousValue, setPreviousValue] = useState(null);
-  const [operator, setOperador] = useStat(null);
+  const [operator, setOperador] = useState(null);
   const [waitingForNewValue, setWaitingForNewValue] = useState(false);
 
   const handleNumberPress = (num) => {
@@ -17,6 +17,36 @@ export default function App() {
     }
   }
 
+  const handleClear = () => {
+    setDisplay('0');
+    setPreviousValue(null);
+    setOperador(null);
+    setWaitingForNewValue(false);
+  }
+
+  const handleOperatorPress = (op) => {
+   const inputValue = parseFloat(display);
+   if (previousValue == null) {
+    setPreviousValue(inputValue);
+   } else if (operator){
+    const result = calculate(previousValue, inputValue, operator);
+    setDisplay(String(result));
+    setPreviousValue(result);
+   }
+
+   setWaitingForNewValue(true);
+   setOperador(op);
+  } 
+
+   const calculate = (firstValue, secondValue, operator) => {
+    switch (operator) {
+      case '+': return firstValue + secondValue;
+      case '-': return firstValue - secondValue;
+      case 'x': return firstValue * secondValue;
+      case '/': return firstValue / secondValue;
+      default: return secondValue;
+    }
+   }
   return (
     <View style={styles.container}>
       <StatusBar style="light" />
@@ -30,7 +60,7 @@ export default function App() {
       </View>
 
       <View style={styles.row}>
-        <TouchableOpacity style={styles.functionButton}>
+        <TouchableOpacity style={styles.functionButton} on onPress={handleClear}>
           <Text style={styles.functionButton}>C</Text>
         </TouchableOpacity>
          <TouchableOpacity style={styles.functionButton}>
@@ -61,27 +91,27 @@ export default function App() {
 
         <View style={styles.row}>
          <TouchableOpacity style={styles.buttonNumber} onPress={() => handleNumberPress(4)}>
-          <Text style={styles.buttonTextutton}>4</Text>
+          <Text style={styles.buttonTextutton}>4</Text >
         </TouchableOpacity>
-         <TouchableOpacity style={styles.buttonNumber}>
+         <TouchableOpacity style={styles.buttonNumber}onPress={() => handleNumberPress(5)}>
           <Text style={styles.buttonTextutton}>5</Text>
         </TouchableOpacity>
-         <TouchableOpacity style={styles.buttonNumber}>
+         <TouchableOpacity style={styles.buttonNumber} onPress={() => handleNumberPress(6)}>
           <Text style={styles.buttonTextutton}>6</Text>
         </TouchableOpacity>
-         <TouchableOpacity style={styles.buttonNumber}>
+         <TouchableOpacity style={styles.buttonNumber} >
           <Text style={styles.buttonTextutton}>-</Text>
         </TouchableOpacity>
         </View>
 
          <View style={styles.row}>
-         <TouchableOpacity style={styles.buttonNumber}>
+         <TouchableOpacity style={styles.buttonNumber} onPress={() => handleNumberPress(1)}>
           <Text style={styles.buttonTextutton}>1</Text>
         </TouchableOpacity>
-         <TouchableOpacity style={styles.buttonNumber}>
+         <TouchableOpacity style={styles.buttonNumber} onPress={() => handleNumberPress(2)}>
           <Text style={styles.buttonTextutton}>2</Text>
         </TouchableOpacity>
-         <TouchableOpacity style={styles.buttonNumber}>
+         <TouchableOpacity style={styles.buttonNumber} onPress={() => handleNumberPress(3)}>
           <Text style={styles.buttonTextutton}>3</Text>
         </TouchableOpacity>
          <TouchableOpacity style={styles.buttonNumber}>
@@ -90,10 +120,10 @@ export default function App() {
         </View>
 
         <View style={styles.row}>
-         <TouchableOpacity style={styles.buttonNumber}>
+         <TouchableOpacity style={styles.buttonNumber} onPress={() => handleNumberPress(0)}>
           <Text style={styles.buttonTextutton}>0</Text>
         </TouchableOpacity>
-         <TouchableOpacity style={styles.buttonNumber}>
+         <TouchableOpacity style={styles.buttonNumber} >
           <Text style={styles.buttonTextutton}>.</Text>
         </TouchableOpacity>
          <TouchableOpacity style={styles.buttonNumber}>
