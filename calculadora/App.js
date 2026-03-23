@@ -1,9 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { Button, StyleSheet, Text, Touchable, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function App() {
-  const [display, setDisplay] =useState('0');
+  const [display, setDisplay] = useState('0');
   const [previousValue, setPreviousValue] = useState(null);
   const [operator, setOperador] = useState(null);
   const [waitingForNewValue, setWaitingForNewValue] = useState(false);
@@ -52,7 +52,7 @@ export default function App() {
    const handleEquals = () => {
     const inputValue = parseFloat(display);
 
-    if (previousValue != null && operator){
+    if (previousValue != null && operator) {
       const result = calculate(previousValue, inputValue, operator);
       setDisplay(String(result));
       setPreviousValue(null);
@@ -114,7 +114,7 @@ export default function App() {
          <TouchableOpacity style={styles.buttonNumber} onPress={() => handleNumberPress(9)}>
           <Text style={styles.buttonText}>9</Text>
         </TouchableOpacity>
-         <TouchableOpacity style={styles.buttonNumber} onPress={() => handleNumberPress('x')}>
+         <TouchableOpacity style={styles.buttonNumber} onPress={() => handleOperatorPress('x')}>
           <Text style={styles.operatorText}>x</Text>
         </TouchableOpacity>
         </View>
@@ -153,10 +153,10 @@ export default function App() {
          <TouchableOpacity style={styles.buttonNumber} onPress={() => handleNumberPress(0)}>
           <Text style={styles.buttonText}>0</Text>
         </TouchableOpacity>
-         <TouchableOpacity style={styles.buttonNumber} >
+         <TouchableOpacity style={styles.buttonNumber} onPress={handleDecimal}>
           <Text style={styles.buttonText}>.</Text>
         </TouchableOpacity>
-         <TouchableOpacity style={styles.buttonNumber}>
+         <TouchableOpacity style={styles.buttonNumber} onPress={handleEquals}>
           <Text style={styles.operadorText}>=</Text>
         </TouchableOpacity>
         </View>
